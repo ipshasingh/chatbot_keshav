@@ -3,7 +3,7 @@ let lastVerse = "";
 function askKeshav() {
     const question = document.getElementById('question').value;
 
-    fetch('https://your-backend-url/ask', {
+    fetch('https://chatbot-keshav.onrender.com/ask', {
         method: 'POST',
         body: JSON.stringify({ question }),
         headers: { 'Content-Type': 'application/json' }
