@@ -20,7 +20,7 @@ function askKeshav() {
 }
 
 function reciteVerse() {
-    fetch('https://your-backend-url/recite', {
+    fetch('https://chatbot-keshav.onrender.com/recite', {
         method: 'POST',
         body: JSON.stringify({ verse: lastVerse }),
         headers: { 'Content-Type': 'application/json' }
