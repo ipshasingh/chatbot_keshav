@@ -3,7 +3,7 @@ let lastVerse = "";
 function askKeshav() {
     const question = document.getElementById('question').value;
 
-    fetch('https://chatbot-keshav.onrender.com/ask', {
+    fetch('https://keshavai.onrender.com/ask', {
         method: 'POST',
         body: JSON.stringify({ question }),
         headers: { 'Content-Type': 'application/json' }
@@ -20,7 +20,7 @@ function askKeshav() {
 }
 
 function reciteVerse() {
-    fetch('https://chatbot-keshav.onrender.com/recite', {
+    fetch('https://keshavai.onrender.com/recite', {
         method: 'POST',
         body: JSON.stringify({ verse: lastVerse }),
         headers: { 'Content-Type': 'application/json' }

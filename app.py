@@ -1,38 +1,25 @@
-from flask import Flask, request, jsonify, send_file
-import google.generativeai as genai
-import os
-from gtts import gTTS
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import json
 
 app = Flask(__name__)
+CORS(app)
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+with open("gita_data.json", "r", encoding="utf-8") as file:
+    gita_data = json.load(file)
 
-with open("prompt.txt", "r", encoding="utf-8") as file:
-    SYSTEM_PROMPT = file.read()
-
-model = genai.GenerativeModel("gemini-pro")
-
-@app.route('/ask', methods=['POST'])
+@app.route("/ask", methods=["POST"])
 def ask():
     data = request.json
-    question = data.get("question")
+    question = data.get("question", "").lower()
 
-    chat = model.start_chat(history=[])
-    response = chat.send_message(f"{SYSTEM_PROMPT}\n\nUser Question: {question}")
+    response = "I am still learning. Please ask a question related to the Gita."
 
-    reply = response.text
+    if "who are you" in question:
+        response = "I am Keshav, your spiritual guide based on the Shrimad Bhagavad Gita."
 
-    return jsonify({"response": reply})
-
-@app.route('/recite', methods=['POST'])
-def recite():
-    data = request.json
-    verse = data.get("verse")
-
-    tts = gTTS(verse, lang="hi")
-    tts.save("verse.mp3")
-
-    return send_file("verse.mp3", mimetype="audio/mpeg")
+    return jsonify({"response": response})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
