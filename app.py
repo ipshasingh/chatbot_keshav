@@ -21,5 +21,26 @@ def ask():
 
     return jsonify({"response": response})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+@app.route('/ask', methods=['POST'])
+def ask():
+    data = request.json
+    if not data or "question" not in data:
+        return jsonify({"error": "Missing 'question' in request"}), 400
+
+    question = data["question"]
+    chat = model.start_chat(history=[])
+    response = chat.send_message(f"{SYSTEM_PROMPT}\n\nUser Question: {question}")
+
+    reply = response.text
+    return jsonify({"response": reply})
+
+import os
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 10000))  # Default 10000 if not set
+    app.run(host='0.0.0.0', port=port)
+
+
+@app.route('/')
+def home():
+    return "KeshavAI backend is running!"
